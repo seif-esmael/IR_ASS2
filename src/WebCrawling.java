@@ -12,9 +12,6 @@ public class WebCrawling {
     // A set for visited URLs to prevent crawling the same URL more than once
     private final HashSet<String> visited = new HashSet<String>();
 
-    // Mapping a specific document to a link
-    private HashMap<String, String> documents = new HashMap<>();
-
     InvertedIndex invertedIndex;
     WebCrawling(){
         invertedIndex = new InvertedIndex();
@@ -57,9 +54,6 @@ public class WebCrawling {
 
                     // Fetching content
                     String text = doc.body().text();
-
-                    // Storing each doc ID (url) to its content in the map
-                    documents.put(url,text);
 
                     // Tokenization stage
                     tokenize(url,text);
