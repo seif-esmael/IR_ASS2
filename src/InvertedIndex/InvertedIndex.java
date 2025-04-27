@@ -12,7 +12,6 @@ public class InvertedIndex {
     // Mapping a term to its posting list
     private HashMap<String, List<Posting>> invertedIndex;
 
-
     public InvertedIndex() {
         invertedIndex = new HashMap<>();
     }
@@ -42,6 +41,8 @@ public class InvertedIndex {
 
         // if the term not found in the postings list , add it with a freq 1 as it's the first time this term seen
         if (!flag) postings.add(new Posting(docID,1));
+
+        invertedIndex.put(term, postings);
     }
 
 
@@ -67,5 +68,8 @@ public class InvertedIndex {
         } catch (IOException e) {
             System.err.println("Error writing to file: " + e.getMessage());
         }
+    }
+    public HashMap<String, List<Posting>> getInvertedIndex() {
+        return invertedIndex;
     }
 }

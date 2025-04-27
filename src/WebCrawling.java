@@ -12,18 +12,7 @@ public class WebCrawling {
     // A set for visited URLs to prevent crawling the same URL more than once
     private final HashSet<String> visited = new HashSet<String>();
 
-    InvertedIndex invertedIndex;
-    WebCrawling(){
-        invertedIndex = new InvertedIndex();
-    }
-
-    public void tokenize(String ID, String text){
-        text = text.toLowerCase();
-        String[] tokens = text.split("\\W+");
-        for (String t:tokens) invertedIndex.addingTermToDoc(t,ID);
-     }
-
-    public void crawl() {
+    public Map<String, String> crawl() {
         // Provided URLs in the assignment as examples
         String url1 = "https://en.wikipedia.org/wiki/List_of_pharaohs";
         String url2 = "https://en.wikipedia.org/wiki/Pharaoh";
@@ -37,6 +26,9 @@ public class WebCrawling {
 
         // Maximum number of documents to crawl
         int maxDocs = 10;
+
+        // Map to store the document content
+        Map<String, String> documentContent = new HashMap<>();
 
         // Crawling process
         while (!links.isEmpty() && visited.size() < maxDocs) {
@@ -55,8 +47,8 @@ public class WebCrawling {
                     // Fetching content
                     String text = doc.body().text();
 
-                    // Tokenization stage
-                    tokenize(url,text);
+                    // Storing the content in the documentContent map with the URL as the key
+                    documentContent.put(url, text);
 
                     // Select all <a href="..."> elements to find links on the page
                     Elements urls = doc.select("a[href]");
@@ -87,11 +79,6 @@ public class WebCrawling {
             }
         }
 
-        // Print the list of crawled pages
-        System.out.println("\nCrawled pages:");
-        for (String page : visited) {
-            System.out.println(page);
-        }
-        invertedIndex.printTable();
+        return documentContent;
     }
 }
