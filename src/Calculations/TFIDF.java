@@ -9,7 +9,7 @@ import java.util.Map;
 public class TFIDF {
     private static final int N = 10;
     public Map<String, Map<String, Double>> calculateTFIDF(Map<String, List<Posting>> invertedIndex) {
-        // Map to store TF-IDF values of all terms in each document (docId -> (term -> tfidf))
+        // Map to store TF-IDF values of all terms in each document (docId -> (term -> tfidf)) i.e. document vector
         Map<String, Map<String, Double>> tfidfMap = new HashMap<>();
 
         // Calculate TF-IDF for all terms in each document
@@ -23,7 +23,9 @@ public class TFIDF {
             // Calculate TF-IDF for each document
             for (Posting posting : postings) {
                 String docID = posting.getDocumentId();
+                // Calculate TF
                 double tf = 1 + Math.log10(posting.getTermFrequency());
+                // Calculate TF-IDF
                 double tfidf = tf * idf;
 
                 // Initialize the map for the document if it doesn't exist

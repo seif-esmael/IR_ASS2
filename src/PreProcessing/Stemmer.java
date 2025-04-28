@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Stemmer {
     public List<String> stemTokens(List<String> tokens) {
+        // Create a new PorterStemmer instance and a list to store the stemmed tokens
         PorterStemmer stemmer = new PorterStemmer();
         List<String> stemmedTokens = new ArrayList<>(tokens.size());
 

@@ -3,29 +3,32 @@ package Calculations;
 import java.util.Map;
 
 public class CosineSimilarity {
-    public static double calculateCosineSimilarity(Map<String, Double> vectorA, Map<String, Double> vectorB) {
+    public static double calculateCosineSimilarity(Map<String, Double> queryVector, Map<String, Double> documentVector) {
+        // Calculate the cosine similarity between two documents represented as term frequency vectors
         double dotProduct = 0.0;
-        double normA = 0.0;
-        double normB = 0.0;
-
-        for (String term : vectorA.keySet()) {
-            if (vectorB.containsKey(term)) {
-                dotProduct += vectorA.get(term) * vectorB.get(term);
+        double euclideanNormA = 0.0;
+        double euclideanNormB = 0.0;
+        // Iterate through the common terms in queryVector and documentVector to calculate the dot product
+        for (String term : queryVector.keySet()) {
+            if (documentVector.containsKey(term)) {
+                dotProduct += queryVector.get(term) * documentVector.get(term);
             }
         }
-
-        for (double value : vectorA.values()) {
-            normA += Math.pow(value, 2);
+        // Calculate the Euclidean norms of queryVector
+        for (double value : queryVector.values()) {
+            euclideanNormA += Math.pow(value, 2);
         }
-
-        for (double value : vectorB.values()) {
-            normB += Math.pow(value, 2);
+        euclideanNormA = Math.sqrt(euclideanNormA);
+        // Calculate the Euclidean norms of documentVector
+        for (double value : documentVector.values()) {
+            euclideanNormB += Math.pow(value, 2);
         }
-
-        if (normA == 0 || normB == 0) {
+        euclideanNormB = Math.sqrt(euclideanNormB);
+        // If either vector is empty, return 0.0
+        if (euclideanNormA == 0 || euclideanNormB == 0) {
             return 0.0;
         }
-
-        return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+        // Calculate the cosine similarity
+        return dotProduct / (euclideanNormA * euclideanNormB);
     }
 }

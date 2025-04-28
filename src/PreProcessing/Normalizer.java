@@ -10,6 +10,7 @@ public class Normalizer {
 
         // Normalize each token
         for (String token : tokens) {
+            // Convert to lowercase and remove non-alphabetic characters
             String normalizedToken = token.toLowerCase();
             normalizedToken = normalizedToken.replaceAll("[^a-z]", "");
 
